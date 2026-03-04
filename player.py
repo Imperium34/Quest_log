@@ -1,6 +1,7 @@
 class Player:
     def __init__(self, name):
         self.name = name
+        self.last_login = None
         self.xp = 0
         self.lvl = 1
         self.gold = 0
@@ -37,6 +38,7 @@ class Player:
     def to_dict(self):
         return {
             "name": self.name,
+            "last_login": self.last_login,
             "level": self.lvl,
             "xp": self.xp,
             "gold": self.gold

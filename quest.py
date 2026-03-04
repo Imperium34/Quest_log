@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 REWARD_CONFIG = {
     "type_multipliers": {
@@ -7,7 +7,8 @@ REWARD_CONFIG = {
         "Training": [1.5, 0.1],
         "Guild Work": [1, 1],
         "Boss Battle": [5, 5],
-        "Emergency": [1, 0.5]
+        "Emergency": [1, 0.5],
+        "Daily Quest": [1, 1]
     },
     "base_rewards": {
         1: {"xp": 50, "gold": 10},
@@ -23,7 +24,7 @@ class Quest:
         self.desc = desc
         self.type = quest_type
         self.diff = difficulty
-        self.issued = datetime.now().isoformat()
+        self.issued = date.today().isoformat()
         self.time_completed = None
         self.time_limit = time_limit
         self.completed = False
@@ -63,7 +64,7 @@ class Quest:
         if self.completed:
             raise ValueError("This quest is already completed!")
         print(f"You have completed {self.name}!\nYou have gained {self.xp} xp!")
-        self.time_completed = datetime.now().isoformat()
+        self.time_completed = date.today().isoformat()
         player.gain_xp(self.xp)
         self.completed = True
 
@@ -77,6 +78,7 @@ class Quest:
             "type": self.type,
             "difficulty": self.diff,
             "issued_time": self.issued,
+            "time_limit": self.time_limit,
             "completed_time": self.time_completed,
             "completed": self.completed,
             "pinned": self.pinned
