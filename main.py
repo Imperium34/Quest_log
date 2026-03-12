@@ -28,6 +28,7 @@ def main():
                 print(f"  {i}. {status} {q.name} ({q.type}) - {q.diff} pts")
 
         print("\n--- ACTIONS ---")
+        print("[i] Inspect Quest")
         print("[n] New Quest")
         print("[c] Complete Quest")
         print("[r] Remove Quest")
@@ -35,37 +36,43 @@ def main():
         
         choice = input("\n>> ").lower().strip()
 
-        if choice == 'n':
-            game.create_quest()
-
-        elif choice == 'c':
-            q_num = input("Quest # to complete: ")
-            if q_num.isdigit():
-                idx = int(q_num) - 1
-                if 0 <= idx < len(game.quests):
-                    quest = game.quests[idx]
-                    if not quest.completed:
-                        quest.complete(game.player)
-                        input("\nQuest Complete! Press Enter...")
+        match(choice):
+            case "i":
+                q_num = input("Quest # to inspect: ")
+                if q_num.isdigit():
+                    idx = int(q_num) - 1
+                    if 0 <= idx < len(game.quests):
+                        quest = game.quests[idx]
+                        quest.get_info()
+                        input("Press Enter...")
+            case "n":
+                game.create_quest()
+            case "c":
+                q_num = input("Quest # to complete: ")
+                if q_num.isdigit():
+                    idx = int(q_num) - 1
+                    if 0 <= idx < len(game.quests):
+                        quest = game.quests[idx]
+                        if not quest.completed:
+                            quest.complete(game.player)
+                            input("\nQuest Complete! Press Enter...")
+                        else:
+                            input("\nAlready done! Press Enter...")
                     else:
-                        input("\nAlready done! Press Enter...")
-                else:
-                    input("\nInvalid number. Press Enter...")
-
-        elif choice == 'r':
-            q_num = input("Quest # to remove: ")
-            if q_num.isdigit():
-                idx = int(q_num) - 1
-                if 0 <= idx < len(game.quests):
-                    game.delete_quest(idx)
-                    input("\nQuest Removed! Press Enter...")
-                else:
-                    input("\nInvalid number. Press Enter...")
-
-        elif choice == 's':
-            game.dump()
-            print("\nGame Saved. See you next time, Hero.")
-            break
+                        input("\nInvalid number. Press Enter...")
+            case "r":
+                q_num = input("Quest # to remove: ")
+                if q_num.isdigit():
+                    idx = int(q_num) - 1
+                    if 0 <= idx < len(game.quests):
+                        game.delete_quest(idx)
+                        input("\nQuest Removed! Press Enter...")
+                    else:
+                        input("\nInvalid number. Press Enter...")
+            case "s":
+                game.dump()
+                print("\nGame Saved. See you next time, Hero.")
+                break
 
 if __name__ == "__main__":
     main()
